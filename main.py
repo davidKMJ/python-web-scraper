@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, redirect, send_file
-from extractors.remoteok import get_jobs
+from extractors.berlinstartupjobs import extract_berlinstartupjobs_jobs
+from extractors.weworkremotely import extract_weworkremotely_jobs
+from extractors.web3 import extract_web3_jobs
+from extractors.remoteok import extract_remoteok_jobs
 from file import save_to_file
 
 app = Flask("JobScrapper")
@@ -13,12 +16,16 @@ def home():
 @app.route("/search")
 def hello():
     keyword = request.args.get("keyword")
-    if keyword == None:
+    if keyword is None:
         return redirect("/")
     if keyword in db:
         jobs = db[keyword]
     else:
-        jobs = get_jobs(keyword)
+        jobs = []
+        jobs += extract_berlinstartupjobs_jobs(keyword)
+        jobs += extract_weworkremotely_jobs(keyword)
+        jobs += extract_web3_jobs(keyword)
+        jobs += extract_remoteok_jobs(keyword)
         db[keyword] = jobs
     return render_template("search.html", keyword=keyword, jobs=jobs)
 
@@ -26,7 +33,7 @@ def hello():
 @app.route("/export")
 def export():
     keyword = request.args.get("keyword")
-    if keyword == None:
+    if keyword is None:
         return redirect("/")
     if keyword not in db:
         return redirect(f"/search?keyword={keyword}")

@@ -26,12 +26,12 @@
                     <tbody>
                         {% for job in jobs %}
                         <tr>
-                            <td><span>{{job.title}}</span></td>
+                            <td><span>{{job.position}}</span></td>
                             <td><span>{{job.company}}</span></td>
                             <td><span>{{job.region}}</span></td>
                             <td>
                                 <a href="{{job.link}}" target="_blank"
-                                    >Apply &rarr;</a
+                                    >Apply from {{job.reference}}</a
                                 >
                             </td>
                         </tr>
