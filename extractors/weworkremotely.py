@@ -9,7 +9,8 @@ def extract_weworkremotely_jobs(keyword):
     user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     response = requests.get(
         f"https://weworkremotely.com/remote-jobs/search?term={keyword}",
-        headers={"User-Agent": user_agent})
+        headers={"User-Agent": user_agent},
+    )
 
     soup = BeautifulSoup(response.text, "html.parser")
     sections = soup.find_all("section", class_="jobs")
@@ -25,10 +26,13 @@ def extract_weworkremotely_jobs(keyword):
             link = job.select(":scope > a")[0]["href"].strip()
             link = f"https://weworkremotely.com{link}"
             all_jobs.append(
-                Job(company=company,
+                Job(
+                    company=company,
                     position=position,
                     region=region,
                     link=link,
-                    reference="weworkremotely.com"))
+                    reference="weworkremotely.com",
+                )
+            )
 
     return all_jobs

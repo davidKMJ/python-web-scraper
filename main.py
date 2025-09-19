@@ -9,9 +9,11 @@ app = Flask("JobScrapper")
 
 db = {}
 
+
 @app.route("/")
 def home():
     return render_template("home.html", name="David")
+
 
 @app.route("/search")
 def hello():
@@ -39,5 +41,6 @@ def export():
         return redirect(f"/search?keyword={keyword}")
     save_to_file(keyword, db[keyword])
     return send_file(f"{keyword}.csv", as_attachment=True)
+
 
 app.run("0.0.0.0", port=5500, debug=True)

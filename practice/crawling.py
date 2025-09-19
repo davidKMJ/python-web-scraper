@@ -5,10 +5,14 @@ import time
 
 jobs_db_1 = []
 
+
 def scrape_weworkremotely():
     url = "https://weworkremotely.com/categories/remote-full-stack-programming-jobs"
     response = requests.get(url)
-    soup = BeautifulSoup(response.content, "html.parser",)
+    soup = BeautifulSoup(
+        response.content,
+        "html.parser",
+    )
 
     jobs = soup.find("section", class_="jobs").find_all("li")[0:-1]
 
@@ -29,6 +33,7 @@ def scrape_weworkremotely():
             "url": f"https://weworkremotely.com{url}",
         }
         jobs_db_1.append(job_data)
+
 
 scrape_weworkremotely()
 
